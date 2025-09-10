@@ -1,1 +1,1 @@
-# TechCareer--YazKampi-UygulamalarlaSQLEgitimi
+# TechCareer/YazKampı: Uygulamalarla SQL Eğitimi
