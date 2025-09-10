@@ -2,15 +2,14 @@ CREATE DATABASE LibraryManagementDb;
 
 CREATE TABLE books (
     book_id INT PRIMARY KEY,
-    title NVARCHAR(255) NOT NULL, /* VARCHAR TÜRKÇE KARAKTER DESTEKLEMEZ */
-    author NVARCHAR(255) NOT NULL, /* NVARCHAR VERİ TİPİ KULLANILIR */
-    genre NVARCHAR(50), /* SADECE NVARCHAR YETMEZ STRİNG TIRNAĞINDAN ÖNCE N KONUR */
+    title NVARCHAR(255) NOT NULL, 
+    author NVARCHAR(255) NOT NULL, 
+    genre NVARCHAR(50), 
     price DECIMAL(10, 2) NOT NULL CHECK(price > 0),
-    stock INT CHECK(stock >= 0), --UNSIGNED MANTIKLI AMA GENELDE ESKI CIHAZLARDA
-    published_year INT, --INT CHECK (published_year BETWEEN 1900 AND 2025)
+    stock INT CHECK(stock >= 0),
+    published_year INT CHECK (published_year BETWEEN 1900 AND 2025)
     added_at DATE
 );
---drop table books; --!!!Tablo düzenleme için
 
 INSERT INTO books (book_id, title, author, genre, price, stock, published_year, added_at)
 VALUES
