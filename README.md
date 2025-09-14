@@ -1,1 +1,1 @@
-# TechCareer/YazKampı: Uygulamalarla SQL Eğitimi
+# TechCareer/YazKampı: Uygulamalarla SQL Eğitimi (3. Sınıf)
