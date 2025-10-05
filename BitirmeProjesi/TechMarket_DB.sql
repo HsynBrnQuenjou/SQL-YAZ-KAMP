@@ -111,8 +111,8 @@ CREATE TABLE Siparis (
     musteri_id INT NOT NULL,
     tarih DATETIME DEFAULT GETDATE(),
     toplam_tutar DECIMAL(10,2) NOT NULL,
-    odeme_turu NVARCHAR(20) CHECK (odeme_turu IN ('Kredi Kartý', 'Banka Kartý', 'Havale', 'Kapýda Ödeme')) NOT NULL,
-    siparis_durumu NVARCHAR(20) CHECK (siparis_durumu IN ('Beklemede', 'Onaylandý', 'Hazýrlanýyor', 'Kargolandý', 'Teslim Edildi', 'Ýptal')) DEFAULT 'Beklemede',
+    odeme_turu NVARCHAR(20) CHECK (odeme_turu IN ('Kredi KartÃ½', 'Banka KartÃ½', 'Havale', 'KapÃ½da Ã–deme')) NOT NULL,
+    siparis_durumu NVARCHAR(20) CHECK (siparis_durumu IN ('Beklemede', 'OnaylandÃ½', 'HazÃ½rlanÃ½yor', 'KargolandÃ½', 'Teslim Edildi', 'Ãptal')) DEFAULT 'Beklemede',
     kargo_ucreti DECIMAL(10,2) DEFAULT 0,
     teslimat_adresi NVARCHAR(MAX),
     FOREIGN KEY (musteri_id) REFERENCES Musteri(id)
@@ -141,7 +141,7 @@ CREATE TABLE Kargo (
     takip_no NVARCHAR(50),
     gonderim_tarihi DATE,
     teslim_tarihi DATE,
-    durum NVARCHAR(20) CHECK (durum IN ('Hazýrlanýyor', 'Kargoya Verildi', 'Daðýtýmda', 'Teslim Edildi')) DEFAULT 'Hazýrlanýyor',
+    durum NVARCHAR(20) CHECK (durum IN ('HazÃ½rlanÃ½yor', 'Kargoya Verildi', 'DaÃ°Ã½tÃ½mda', 'Teslim Edildi')) DEFAULT 'HazÃ½rlanÃ½yor',
     FOREIGN KEY (siparis_id) REFERENCES Siparis(id)
 );
 GO
@@ -153,7 +153,7 @@ CREATE TABLE Iade (
     urun_id INT NOT NULL,
     iade_nedeni NVARCHAR(MAX) NOT NULL,
     iade_tarihi DATE NOT NULL,
-    durum NVARCHAR(20) CHECK (durum IN ('Talep Edildi', 'Onaylandý', 'Reddedildi', 'Tamamlandý')) DEFAULT 'Talep Edildi',
+    durum NVARCHAR(20) CHECK (durum IN ('Talep Edildi', 'OnaylandÃ½', 'Reddedildi', 'TamamlandÃ½')) DEFAULT 'Talep Edildi',
     iade_tutari DECIMAL(10,2),
     FOREIGN KEY (siparis_id) REFERENCES Siparis(id),
     FOREIGN KEY (urun_id) REFERENCES Urun(id)
@@ -192,7 +192,7 @@ CREATE TABLE Personel (
     ad NVARCHAR(50) NOT NULL,
     soyad NVARCHAR(50) NOT NULL,
     email NVARCHAR(100) UNIQUE NOT NULL,
-    rol NVARCHAR(30) CHECK (rol IN ('Admin', 'Yönetici', 'Satýþ', 'Depo', 'Müþteri Hizmetleri')),
+    rol NVARCHAR(30) CHECK (rol IN ('Admin', 'YÃ¶netici', 'SatÃ½Ã¾', 'Depo', 'MÃ¼Ã¾teri Hizmetleri')),
     sifre_hash NVARCHAR(255) NOT NULL,
     aktif BIT DEFAULT 1,
     ise_giris_tarihi DATE
@@ -210,32 +210,32 @@ GO
 
 -- 1. Musteriler
 INSERT INTO Musteri (ad, soyad, email, telefon, sehir, adres, dogum_tarihi, loyalite_puani) VALUES
-(N'Ahmet', N'Yýlmaz', N'ahmet.yilmaz@email.com', N'05321234567', N'Ýstanbul', N'Kadýköy, Moda Cad. No:15', '1985-03-15', 250),
-(N'Ayþe', N'Demir', N'ayse.demir@email.com', N'05339876543', N'Ankara', N'Çankaya, Kýzýlay Mah. No:42', '1990-07-22', 180),
-(N'Mehmet', N'Kaya', N'mehmet.kaya@email.com', N'05445556677', N'Ýzmir', N'Karþýyaka, Bostanlý Sok. No:8', '1988-11-30', 420),
-(N'Zeynep', N'Þahin', N'zeynep.sahin@email.com', N'05367778899', N'Bursa', N'Nilüfer, Atatürk Cad. No:23', '1995-01-18', 95),
-(N'Ali', N'Öztürk', N'ali.ozturk@email.com', N'05551112233', N'Antalya', N'Muratpaþa, Lara Yolu No:67', '1982-09-05', 560),
-(N'Fatma', N'Çelik', N'fatma.celik@email.com', N'05423334455', N'Adana', N'Seyhan, Ýnönü Cad. No:12', '1992-04-12', 140),
-(N'Can', N'Arslan', N'can.arslan@email.com', N'05398887766', N'Kocaeli', N'Ýzmit, Þehit Pamir Cad. No:34', '1987-06-28', 310),
-(N'Elif', N'Yýldýz', N'elif.yildiz@email.com', N'05334445566', N'Konya', N'Selçuklu, Mevlana Cad. No:56', '1993-12-03', 75);
+(N'Ahmet', N'YÃ½lmaz', N'ahmet.yilmaz@email.com', N'05321234567', N'Ãstanbul', N'KadÃ½kÃ¶y, Moda Cad. No:15', '1985-03-15', 250),
+(N'AyÃ¾e', N'Demir', N'ayse.demir@email.com', N'05339876543', N'Ankara', N'Ã‡ankaya, KÃ½zÃ½lay Mah. No:42', '1990-07-22', 180),
+(N'Mehmet', N'Kaya', N'mehmet.kaya@email.com', N'05445556677', N'Ãzmir', N'KarÃ¾Ã½yaka, BostanlÃ½ Sok. No:8', '1988-11-30', 420),
+(N'Zeynep', N'Ãžahin', N'zeynep.sahin@email.com', N'05367778899', N'Bursa', N'NilÃ¼fer, AtatÃ¼rk Cad. No:23', '1995-01-18', 95),
+(N'Ali', N'Ã–ztÃ¼rk', N'ali.ozturk@email.com', N'05551112233', N'Antalya', N'MuratpaÃ¾a, Lara Yolu No:67', '1982-09-05', 560),
+(N'Fatma', N'Ã‡elik', N'fatma.celik@email.com', N'05423334455', N'Adana', N'Seyhan, ÃnÃ¶nÃ¼ Cad. No:12', '1992-04-12', 140),
+(N'Can', N'Arslan', N'can.arslan@email.com', N'05398887766', N'Kocaeli', N'Ãzmit, Ãžehit Pamir Cad. No:34', '1987-06-28', 310),
+(N'Elif', N'YÃ½ldÃ½z', N'elif.yildiz@email.com', N'05334445566', N'Konya', N'SelÃ§uklu, Mevlana Cad. No:56', '1993-12-03', 75);
 GO
 
 -- 2. Markalar
 INSERT INTO Marka (ad, aciklama) VALUES
-(N'Apple', N'Teknoloji ve elektronik ürünleri'),
-(N'Samsung', N'Akýllý telefon ve elektronik cihazlar'),
-(N'LG', N'Ev elektroniði ve beyaz eþya'),
-(N'Sony', N'Oyun konsolu ve elektronik eðlence sistemleri'),
-(N'Dell', N'Bilgisayar ve iþ istasyonlarý'),
-(N'HP', N'Yazýcý ve bilgisayar ekipmanlarý'),
-(N'Lenovo', N'Dizüstü bilgisayar ve tablet'),
-(N'Asus', N'Bilgisayar bileþenleri ve oyun ekipmanlarý'),
-(N'Xiaomi', N'Akýllý telefon ve akýllý ev cihazlarý'),
-(N'Bose', N'Ses sistemleri ve kulaklýklar'),
-(N'JBL', N'Taþýnabilir hoparlörler'),
-(N'Logitech', N'Bilgisayar çevre birimleri'),
-(N'Dyson', N'Elektrikli süpürge ve ev aletleri'),
-(N'Philips', N'Küçük ev aletleri');
+(N'Apple', N'Teknoloji ve elektronik Ã¼rÃ¼nleri'),
+(N'Samsung', N'AkÃ½llÃ½ telefon ve elektronik cihazlar'),
+(N'LG', N'Ev elektroniÃ°i ve beyaz eÃ¾ya'),
+(N'Sony', N'Oyun konsolu ve elektronik eÃ°lence sistemleri'),
+(N'Dell', N'Bilgisayar ve iÃ¾ istasyonlarÃ½'),
+(N'HP', N'YazÃ½cÃ½ ve bilgisayar ekipmanlarÃ½'),
+(N'Lenovo', N'DizÃ¼stÃ¼ bilgisayar ve tablet'),
+(N'Asus', N'Bilgisayar bileÃ¾enleri ve oyun ekipmanlarÃ½'),
+(N'Xiaomi', N'AkÃ½llÃ½ telefon ve akÃ½llÃ½ ev cihazlarÃ½'),
+(N'Bose', N'Ses sistemleri ve kulaklÃ½klar'),
+(N'JBL', N'TaÃ¾Ã½nabilir hoparlÃ¶rler'),
+(N'Logitech', N'Bilgisayar Ã§evre birimleri'),
+(N'Dyson', N'Elektrikli sÃ¼pÃ¼rge ve ev aletleri'),
+(N'Philips', N'KÃ¼Ã§Ã¼k ev aletleri');
 GO
 
 -- 3. Kategoriler
@@ -245,33 +245,33 @@ INSERT INTO Kategori (id, ad, ust_kategori_id) VALUES
 (1, N'Bilgisayar & Tablet', NULL),
 (2, N'Telefon & Aksesuar', NULL),
 (3, N'TV & Ses Sistemleri', NULL),
-(4, N'Beyaz Eþya', NULL),
-(5, N'Küçük Ev Aletleri', NULL),
+(4, N'Beyaz EÃ¾ya', NULL),
+(5, N'KÃ¼Ã§Ã¼k Ev Aletleri', NULL),
 (6, N'Gaming', NULL),
-(7, N'Dizüstü Bilgisayar', 1),
-(8, N'Masaüstü Bilgisayar', 1),
+(7, N'DizÃ¼stÃ¼ Bilgisayar', 1),
+(8, N'MasaÃ¼stÃ¼ Bilgisayar', 1),
 (9, N'Tablet', 1),
-(10, N'Akýllý Telefon', 2),
-(11, N'Kulaklýk', 2),
-(12, N'Þarj Cihazý', 2),
+(10, N'AkÃ½llÃ½ Telefon', 2),
+(11, N'KulaklÃ½k', 2),
+(12, N'Ãžarj CihazÃ½', 2),
 (13, N'Televizyon', 3),
-(14, N'Hoparlör', 3),
-(15, N'Buzdolabý', 4),
-(16, N'Çamaþýr Makinesi', 4),
-(17, N'Elektrikli Süpürge', 5),
+(14, N'HoparlÃ¶r', 3),
+(15, N'BuzdolabÃ½', 4),
+(16, N'Ã‡amaÃ¾Ã½r Makinesi', 4),
+(17, N'Elektrikli SÃ¼pÃ¼rge', 5),
 (18, N'Blender', 5),
 (19, N'Oyun Konsolu', 6),
-(20, N'Oyun Kulaklýðý', 6);
+(20, N'Oyun KulaklÃ½Ã°Ã½', 6);
 
 SET IDENTITY_INSERT Kategori OFF;
 GO
 
 -- 4. Saticilar
 INSERT INTO Satici (ad, adres, telefon, email) VALUES
-(N'TechPlus Daðýtým A.Þ.', N'Ýstanbul, Ümraniye Organize Sanayi', N'02161234567', N'info@techplus.com'),
-(N'Elektronik Toptan Ltd.', N'Ankara, Siteler Toptan Satýþ', N'03124567890', N'satis@elektroniktoptan.com'),
-(N'Global Tech Import', N'Ýzmir, Bornova Sanayi', N'02325556677', N'destek@globaltech.com'),
-(N'MegaTek Daðýtým', N'Bursa, Organize Sanayi Bölgesi', N'02243334455', N'siparis@megatek.com');
+(N'TechPlus DaÃ°Ã½tÃ½m A.Ãž.', N'Ãstanbul, Ãœmraniye Organize Sanayi', N'02161234567', N'info@techplus.com'),
+(N'Elektronik Toptan Ltd.', N'Ankara, Siteler Toptan SatÃ½Ã¾', N'03124567890', N'satis@elektroniktoptan.com'),
+(N'Global Tech Import', N'Ãzmir, Bornova Sanayi', N'02325556677', N'destek@globaltech.com'),
+(N'MegaTek DaÃ°Ã½tÃ½m', N'Bursa, Organize Sanayi BÃ¶lgesi', N'02243334455', N'siparis@megatek.com');
 GO
 
 -- 5. Urunler
@@ -283,14 +283,14 @@ INSERT INTO Urun (ad, satis_fiyati, alis_fiyati, stok, kategori_id, satici_id, m
 (N'Dell XPS 15 Laptop', 38999.00, 34000.00, 18, 7, 3, 5, N'XPS9530', N'8697421234571', 24, 1),
 (N'Sony PlayStation 5', 21999.00, 19000.00, 40, 19, 1, 4, N'CFI-1216A', N'8697421234572', 24, 1),
 (N'iPad Air 5 256GB', 24999.00, 21500.00, 20, 9, 1, 1, N'MM9E3', N'8697421234573', 24, 1),
-(N'LG Buzdolabý 600L', 28999.00, 24000.00, 8, 15, 4, 3, N'GC-B247SLUV', N'8697421234574', 24, 1),
+(N'LG BuzdolabÃ½ 600L', 28999.00, 24000.00, 8, 15, 4, 3, N'GC-B247SLUV', N'8697421234574', 24, 1),
 (N'Bose QuietComfort 45', 8999.00, 7200.00, 35, 11, 2, 10, N'QC45', N'8697421234575', 12, 1),
 (N'Dyson V15 Detect', 15999.00, 13500.00, 22, 17, 3, 13, N'V15', N'8697421234576', 24, 1),
 (N'Asus ROG Strix G16', 45999.00, 40000.00, 14, 7, 3, 8, N'G614JV', N'8697421234577', 24, 1),
-(N'Samsung Çamaþýr Makinesi 9KG', 12999.00, 10500.00, 10, 16, 4, 2, N'WW90', N'8697421234578', 24, 1),
-(N'JBL Charge 5 Hoparlör', 3999.00, 3200.00, 50, 14, 2, 11, N'CHARGE5', N'8697421234579', 12, 1),
+(N'Samsung Ã‡amaÃ¾Ã½r Makinesi 9KG', 12999.00, 10500.00, 10, 16, 4, 2, N'WW90', N'8697421234578', 24, 1),
+(N'JBL Charge 5 HoparlÃ¶r', 3999.00, 3200.00, 50, 14, 2, 11, N'CHARGE5', N'8697421234579', 12, 1),
 (N'Xiaomi Redmi Note 13', 8999.00, 7500.00, 45, 10, 2, 9, N'M2101K6G', N'8697421234580', 24, 1),
-(N'HP LaserJet Yazýcý', 4999.00, 4000.00, 28, 8, 3, 6, N'M140w', N'8697421234581', 12, 1),
+(N'HP LaserJet YazÃ½cÃ½', 4999.00, 4000.00, 28, 8, 3, 6, N'M140w', N'8697421234581', 12, 1),
 (N'Logitech MX Master 3S', 2499.00, 2000.00, 60, 8, 3, 12, N'MXM3S', N'8697421234582', 12, 1),
 (N'Apple AirPods Pro 2', 9999.00, 8500.00, 55, 11, 1, 1, N'MQD83', N'8697421234583', 12, 1),
 (N'Lenovo IdeaPad Gaming', 28999.00, 25000.00, 16, 7, 3, 7, N'IdeaPad-Gaming3', N'8697421234584', 24, 1),
@@ -304,7 +304,7 @@ INSERT INTO Urun_Ozellik (urun_id, ozellik_adi, ozellik_degeri) VALUES
 (1, N'Depolama', N'256 GB'),
 (1, N'Ekran Boyutu', N'6.1 inch'),
 (1, N'Renk', N'Titanyum Mavi'),
-(2, N'Ýþlemci', N'Apple M2'),
+(2, N'ÃÃ¾lemci', N'Apple M2'),
 (2, N'RAM', N'8 GB'),
 (2, N'SSD', N'256 GB'),
 (2, N'Ekran', N'13.6 inch Retina'),
@@ -313,22 +313,22 @@ INSERT INTO Urun_Ozellik (urun_id, ozellik_adi, ozellik_degeri) VALUES
 (3, N'Kamera', N'200 MP'),
 (3, N'Renk', N'Titanyum Gri'),
 (4, N'Ekran Boyutu', N'65 inch'),
-(4, N'Çözünürlük', N'4K QLED'),
+(4, N'Ã‡Ã¶zÃ¼nÃ¼rlÃ¼k', N'4K QLED'),
 (4, N'HDR', N'Evet'),
-(5, N'Ýþlemci', N'Intel Core i7-13700H'),
+(5, N'ÃÃ¾lemci', N'Intel Core i7-13700H'),
 (5, N'RAM', N'16 GB'),
 (5, N'SSD', N'512 GB'),
-(5, N'Ekran Kartý', N'NVIDIA RTX 4050'),
+(5, N'Ekran KartÃ½', N'NVIDIA RTX 4050'),
 (6, N'Depolama', N'825 GB SSD'),
 (6, N'Renk', N'Beyaz');
 GO
 
 -- 7. Kampanyalar
 INSERT INTO Kampanya (ad, aciklama, indirim_yuzdesi, baslangic_tarihi, bitis_tarihi, aktif) VALUES
-(N'Yýlbaþý Kampanyasý', N'Tüm elektronik ürünlerde %15 indirim', 15.00, '2024-12-20', '2025-01-05', 1),
-(N'Telefon Festivali', N'Akýllý telefonlarda özel fiyatlar', 10.00, '2025-01-10', '2025-01-31', 1),
-(N'Gaming Haftasý', N'Oyun ekipmanlarýnda %20 indirim', 20.00, '2025-02-01', '2025-02-15', 0),
-(N'Bahar Kampanyasý', N'Beyaz eþyada büyük fýrsatlar', 12.00, '2025-03-01', '2025-03-31', 0);
+(N'YÃ½lbaÃ¾Ã½ KampanyasÃ½', N'TÃ¼m elektronik Ã¼rÃ¼nlerde %15 indirim', 15.00, '2024-12-20', '2025-01-05', 1),
+(N'Telefon Festivali', N'AkÃ½llÃ½ telefonlarda Ã¶zel fiyatlar', 10.00, '2025-01-10', '2025-01-31', 1),
+(N'Gaming HaftasÃ½', N'Oyun ekipmanlarÃ½nda %20 indirim', 20.00, '2025-02-01', '2025-02-15', 0),
+(N'Bahar KampanyasÃ½', N'Beyaz eÃ¾yada bÃ¼yÃ¼k fÃ½rsatlar', 12.00, '2025-03-01', '2025-03-31', 0);
 GO
 
 -- 8. Urun Kampanya
@@ -340,55 +340,55 @@ GO
 
 -- 9. Siparisler
 INSERT INTO Siparis (musteri_id, tarih, toplam_tutar, odeme_turu, siparis_durumu, kargo_ucreti, teslimat_adresi) VALUES
-(1, '2024-12-20 10:30:00', 55999.00, N'Kredi Kartý', N'Teslim Edildi', 0.00, N'Kadýköy, Moda Cad. No:15, Ýstanbul'),
-(2, '2024-12-22 14:20:00', 43999.00, N'Kredi Kartý', N'Teslim Edildi', 0.00, N'Çankaya, Kýzýlay Mah. No:42, Ankara'),
-(3, '2024-12-25 16:45:00', 25999.00, N'Banka Kartý', N'Kargolandý', 0.00, N'Karþýyaka, Bostanlý Sok. No:8, Ýzmir'),
-(4, '2024-12-28 11:15:00', 12999.00, N'Havale', N'Onaylandý', 29.90, N'Nilüfer, Atatürk Cad. No:23, Bursa'),
-(5, '2025-01-02 09:30:00', 70998.00, N'Kredi Kartý', N'Hazýrlanýyor', 0.00, N'Muratpaþa, Lara Yolu No:67, Antalya'),
-(1, '2025-01-05 13:40:00', 14498.00, N'Kredi Kartý', N'Beklemede', 0.00, N'Kadýköy, Moda Cad. No:15, Ýstanbul'),
-(6, '2025-01-08 15:20:00', 8999.00, N'Kapýda Ödeme', N'Beklemede', 29.90, N'Seyhan, Ýnönü Cad. No:12, Adana'),
-(7, '2025-01-10 10:00:00', 48999.00, N'Kredi Kartý', N'Beklemede', 0.00, N'Ýzmit, Þehit Pamir Cad. No:34, Kocaeli');
+(1, '2024-12-20 10:30:00', 55999.00, N'Kredi KartÃ½', N'Teslim Edildi', 0.00, N'KadÃ½kÃ¶y, Moda Cad. No:15, Ãstanbul'),
+(2, '2024-12-22 14:20:00', 43999.00, N'Kredi KartÃ½', N'Teslim Edildi', 0.00, N'Ã‡ankaya, KÃ½zÃ½lay Mah. No:42, Ankara'),
+(3, '2024-12-25 16:45:00', 25999.00, N'Banka KartÃ½', N'KargolandÃ½', 0.00, N'KarÃ¾Ã½yaka, BostanlÃ½ Sok. No:8, Ãzmir'),
+(4, '2024-12-28 11:15:00', 12999.00, N'Havale', N'OnaylandÃ½', 29.90, N'NilÃ¼fer, AtatÃ¼rk Cad. No:23, Bursa'),
+(5, '2025-01-02 09:30:00', 70998.00, N'Kredi KartÃ½', N'HazÃ½rlanÃ½yor', 0.00, N'MuratpaÃ¾a, Lara Yolu No:67, Antalya'),
+(1, '2025-01-05 13:40:00', 14498.00, N'Kredi KartÃ½', N'Beklemede', 0.00, N'KadÃ½kÃ¶y, Moda Cad. No:15, Ãstanbul'),
+(6, '2025-01-08 15:20:00', 8999.00, N'KapÃ½da Ã–deme', N'Beklemede', 29.90, N'Seyhan, ÃnÃ¶nÃ¼ Cad. No:12, Adana'),
+(7, '2025-01-10 10:00:00', 48999.00, N'Kredi KartÃ½', N'Beklemede', 0.00, N'Ãzmit, Ãžehit Pamir Cad. No:34, Kocaeli');
 GO
 
 -- 10. Siparis Detaylari
-INSERT INTO Siparis_Detay (siparis_id, urun_id, adet, satis_fiyati, alis_fiyati, indirim_tutari, ara_toplam) VALUES
-(1, 1, 1, 54999.00, 48000.00, 0.00, 54999.00),
-(1, 13, 1, 3999.00, 3200.00, 0.00, 3999.00),
-(2, 2, 1, 42999.00, 37500.00, 0.00, 42999.00),
-(3, 7, 1, 24999.00, 21500.00, 0.00, 24999.00),
-(4, 12, 1, 12999.00, 10500.00, 0.00, 12999.00),
-(5, 6, 2, 21999.00, 19000.00, 0.00, 43998.00),
-(5, 20, 2, 11999.00, 10000.00, 0.00, 23998.00),
-(6, 9, 1, 8999.00, 7200.00, 0.00, 8999.00),
-(6, 16, 2, 2499.00, 2000.00, 0.00, 4998.00),
-(7, 14, 1, 8999.00, 7500.00, 0.00, 8999.00),
-(8, 3, 1, 47999.00, 42000.00, 0.00, 47999.00);
+INSERT INTO Siparis_Detay (siparis_id, urun_id, adet, satis_fiyati, alis_fiyati, indirim_tutari) VALUES
+(1, 1, 1, 54999.00, 48000.00, 0.00),
+(1, 13, 1, 3999.00, 3200.00, 0.00),
+(2, 2, 1, 42999.00, 37500.00, 0.00),
+(3, 7, 1, 24999.00, 21500.00, 0.00),
+(4, 12, 1, 12999.00, 10500.00, 0.00),
+(5, 6, 2, 21999.00, 19000.00, 0.00),
+(5, 20, 2, 11999.00, 10000.00, 0.00),
+(6, 9, 1, 8999.00, 7200.00, 0.00),
+(6, 16, 2, 2499.00, 2000.00, 0.00),
+(7, 14, 1, 8999.00, 7500.00, 0.00),
+(8, 3, 1, 47999.00, 42000.00, 0.00);
 GO
 
 -- 11. Kargo Bilgileri
 INSERT INTO Kargo (siparis_id, kargo_firmasi, takip_no, gonderim_tarihi, teslim_tarihi, durum) VALUES
 (1, N'Aras Kargo', N'AR123456789TR', '2024-12-21', '2024-12-23', N'Teslim Edildi'),
-(2, N'Yurtiçi Kargo', N'YI987654321TR', '2024-12-23', '2024-12-25', N'Teslim Edildi'),
-(3, N'MNG Kargo', N'MN456789123TR', '2024-12-26', NULL, N'Daðýtýmda'),
-(4, N'Sürat Kargo', N'SR789456123TR', '2024-12-29', NULL, N'Kargoya Verildi'),
-(5, N'Aras Kargo', N'AR321654987TR', '2025-01-03', NULL, N'Hazýrlanýyor');
+(2, N'YurtiÃ§i Kargo', N'YI987654321TR', '2024-12-23', '2024-12-25', N'Teslim Edildi'),
+(3, N'MNG Kargo', N'MN456789123TR', '2024-12-26', NULL, N'DaÃ°Ã½tÃ½mda'),
+(4, N'SÃ¼rat Kargo', N'SR789456123TR', '2024-12-29', NULL, N'Kargoya Verildi'),
+(5, N'Aras Kargo', N'AR321654987TR', '2025-01-03', NULL, N'HazÃ½rlanÃ½yor');
 GO
 
 -- 12. Iade Kayitlari
 INSERT INTO Iade (siparis_id, urun_id, iade_nedeni, iade_tarihi, durum, iade_tutari) VALUES
-(2, 2, N'Ürün hasarlý geldi, klavyede sorun var', '2024-12-27', N'Tamamlandý', 42999.00),
-(1, 13, N'Beklentimi karþýlamadý, ses kalitesi düþük', '2024-12-24', N'Onaylandý', 3999.00);
+(2, 2, N'ÃœrÃ¼n hasarlÃ½ geldi, klavyede sorun var', '2024-12-27', N'TamamlandÃ½', 42999.00),
+(1, 13, N'Beklentimi karÃ¾Ã½lamadÃ½, ses kalitesi dÃ¼Ã¾Ã¼k', '2024-12-24', N'OnaylandÃ½', 3999.00);
 GO
 
 -- 13. Urun Degerlendirmeleri
 INSERT INTO Urun_Degerlendirme (urun_id, musteri_id, puan, yorum, onay_durumu) VALUES
-(1, 1, 5, N'Harika bir telefon! Kamera kalitesi mükemmel, pil ömrü çok iyi.', 1),
-(6, 5, 5, N'PlayStation 5 beklentilerimin üzerinde, oyunlar akýcý çalýþýyor.', 1),
-(7, 3, 4, N'iPad güzel ama fiyatý biraz yüksek. Performans olarak memnunum.', 1),
-(9, 1, 5, N'Bose kulaklýk harika! Gürültü engelleme özelliði çok baþarýlý.', 1),
-(14, 6, 4, N'Xiaomi telefon fiyat/performans açýsýndan çok iyi. Tavsiye ederim.', 1),
-(3, 8, 5, N'Samsung Galaxy S24 Ultra kamera özellikleri inanýlmaz!', 0),
-(12, 4, 3, N'Çamaþýr makinesi iyi çalýþýyor ama biraz gürültülü.', 1);
+(1, 1, 5, N'Harika bir telefon! Kamera kalitesi mÃ¼kemmel, pil Ã¶mrÃ¼ Ã§ok iyi.', 1),
+(6, 5, 5, N'PlayStation 5 beklentilerimin Ã¼zerinde, oyunlar akÃ½cÃ½ Ã§alÃ½Ã¾Ã½yor.', 1),
+(7, 3, 4, N'iPad gÃ¼zel ama fiyatÃ½ biraz yÃ¼ksek. Performans olarak memnunum.', 1),
+(9, 1, 5, N'Bose kulaklÃ½k harika! GÃ¼rÃ¼ltÃ¼ engelleme Ã¶zelliÃ°i Ã§ok baÃ¾arÃ½lÃ½.', 1),
+(14, 6, 4, N'Xiaomi telefon fiyat/performans aÃ§Ã½sÃ½ndan Ã§ok iyi. Tavsiye ederim.', 1),
+(3, 8, 5, N'Samsung Galaxy S24 Ultra kamera Ã¶zellikleri inanÃ½lmaz!', 0),
+(12, 4, 3, N'Ã‡amaÃ¾Ã½r makinesi iyi Ã§alÃ½Ã¾Ã½yor ama biraz gÃ¼rÃ¼ltÃ¼lÃ¼.', 1);
 GO
 
 -- 14. Sepet
@@ -403,11 +403,11 @@ GO
 
 -- 15. Personel
 INSERT INTO Personel (ad, soyad, email, rol, sifre_hash, aktif, ise_giris_tarihi) VALUES
-(N'Kemal', N'Aydýn', N'kemal.aydin@techmarket.com', N'Admin', N'$2y$10$abcdefgh...', 1, '2020-01-15'),
-(N'Selin', N'Korkmaz', N'selin.korkmaz@techmarket.com', N'Yönetici', N'$2y$10$ijklmnop...', 1, '2021-03-20'),
-(N'Burak', N'Tekin', N'burak.tekin@techmarket.com', N'Satýþ', N'$2y$10$qrstuvwx...', 1, '2022-06-10'),
-(N'Merve', N'Özkan', N'merve.ozkan@techmarket.com', N'Müþteri Hizmetleri', N'$2y$10$yzabcdef...', 1, '2023-02-14'),
-(N'Emre', N'Güneþ', N'emre.gunes@techmarket.com', N'Depo', N'$2y$10$ghijklmn...', 1, '2023-08-05');
+(N'Kemal', N'AydÃ½n', N'kemal.aydin@techmarket.com', N'Admin', N'$2y$10$abcdefgh...', 1, '2020-01-15'),
+(N'Selin', N'Korkmaz', N'selin.korkmaz@techmarket.com', N'YÃ¶netici', N'$2y$10$ijklmnop...', 1, '2021-03-20'),
+(N'Burak', N'Tekin', N'burak.tekin@techmarket.com', N'SatÃ½Ã¾', N'$2y$10$qrstuvwx...', 1, '2022-06-10'),
+(N'Merve', N'Ã–zkan', N'merve.ozkan@techmarket.com', N'MÃ¼Ã¾teri Hizmetleri', N'$2y$10$yzabcdef...', 1, '2023-02-14'),
+(N'Emre', N'GÃ¼neÃ¾', N'emre.gunes@techmarket.com', N'Depo', N'$2y$10$ghijklmn...', 1, '2023-08-05');
 GO
 
 /*
@@ -422,9 +422,9 @@ SELECT * FROM Musteri;
 
 INSERT INTO Musteri (ad, soyad, email, telefon, sehir, adres, dogum_tarihi) 
 VALUES 
-(N'Deniz', N'Yýlmaz', N'deniz.yilmaz@email.com', N'05551234567', N'Ýstanbul', N'Beþiktaþ, Barbaros Bulvarý No:45', '1991-05-20'),
-(N'Cem', N'Akar', N'cem.akar@email.com', N'05449876543', N'Ankara', N'Keçiören, Etlik Cad. No:78', '1989-08-12'),
-(N'Seda', N'Kýlýç', N'seda.kilic@email.com', N'05338887766', N'Ýzmir', N'Alsancak, Kýbrýs Þehitleri Cad. No:23', '1994-03-07');
+(N'Deniz', N'YÃ½lmaz', N'deniz.yilmaz@email.com', N'05551234567', N'Ãstanbul', N'BeÃ¾iktaÃ¾, Barbaros BulvarÃ½ No:45', '1991-05-20'),
+(N'Cem', N'Akar', N'cem.akar@email.com', N'05449876543', N'Ankara', N'KeÃ§iÃ¶ren, Etlik Cad. No:78', '1989-08-12'),
+(N'Seda', N'KÃ½lÃ½Ã§', N'seda.kilic@email.com', N'05338887766', N'Ãzmir', N'Alsancak, KÃ½brÃ½s Ãžehitleri Cad. No:23', '1994-03-07');
 GO
 
 -- Yeni Urun Ekleme
@@ -440,7 +440,7 @@ GO
 SELECT * FROM Siparis;
 
 INSERT INTO Siparis (musteri_id, toplam_tutar, odeme_turu, siparis_durumu, kargo_ucreti, teslimat_adresi) 
-VALUES (9, 55999.00, N'Kredi Kartý', N'Beklemede', 0.00, N'Beþiktaþ, Barbaros Bulvarý No:45, Ýstanbul');
+VALUES (9, 55999.00, N'Kredi KartÃ½', N'Beklemede', 0.00, N'BeÃ¾iktaÃ¾, Barbaros BulvarÃ½ No:45, Ãstanbul');
 GO
 
 -- Yeni Kampanya Ekleme
@@ -448,11 +448,11 @@ GO
 SELECT * FROM Kampanya;
 
 INSERT INTO Kampanya (ad, aciklama, indirim_yuzdesi, baslangic_tarihi, bitis_tarihi, aktif) 
-VALUES (N'Þubat Ýndirimleri', N'Tüm laptop modellerinde %10 indirim', 10.00, '2025-02-01', '2025-02-28', 1);
+VALUES (N'Ãžubat Ãndirimleri', N'TÃ¼m laptop modellerinde %10 indirim', 10.00, '2025-02-01', '2025-02-28', 1);
 GO
 
 
--- 2. UPDATE ISLEMLERI (Veri Güncelleme)
+-- 2. UPDATE ISLEMLERI (Veri GÃ¼ncelleme)
 
 
 -- Musteri Bilgilerini Guncelleme
@@ -460,11 +460,11 @@ GO
 SELECT * FROM Musteri;
 
 UPDATE Musteri 
-SET telefon = N'05321111111', sehir = N'Çanakkale' 
+SET telefon = N'05321111111', sehir = N'Ã‡anakkale' 
 WHERE id = 1;
 GO
 
--- Musteri Loyalite Puani Artirma (Alýþveriþ yaptýðýnda)
+-- Musteri Loyalite Puani Artirma (AlÃ½Ã¾veriÃ¾ yaptÃ½Ã°Ã½nda)
 --KONTROL ET:
 SELECT * FROM Musteri;
 
@@ -505,12 +505,12 @@ GO
 SELECT * FROM Siparis;
 
 UPDATE Siparis 
-SET siparis_durumu = N'Onaylandý' 
+SET siparis_durumu = N'OnaylandÃ½' 
 WHERE id = 6;
 GO
 
 UPDATE Siparis 
-SET siparis_durumu = N'Kargolandý' 
+SET siparis_durumu = N'KargolandÃ½' 
 WHERE id = 4;
 GO
 
@@ -546,7 +546,7 @@ GO
 SELECT * FROM Iade;
 
 UPDATE Iade 
-SET durum = N'Tamamlandý' 
+SET durum = N'TamamlandÃ½' 
 WHERE id = 2;
 GO
 
@@ -555,7 +555,7 @@ GO
 SELECT * FROM Personel;
 
 UPDATE Personel 
-SET rol = N'Yönetici', aktif = 1 
+SET rol = N'YÃ¶netici', aktif = 1 
 WHERE id = 3;
 GO
 
@@ -583,7 +583,7 @@ SELECT * FROM Urun WHERE kategori_id = 10;
 
 UPDATE Urun 
 SET satis_fiyati = satis_fiyati * 1.10 
-WHERE kategori_id = 10; -- Akýllý telefonlarda %10 zam
+WHERE kategori_id = 10; -- AkÃ½llÃ½ telefonlarda %10 zam
 GO
 
 
@@ -618,7 +618,7 @@ DELETE FROM Urun_Degerlendirme
 WHERE onay_durumu = 0; -- Onaylanmamis yorumlar
 GO
 
--- Urun Özelligi Silme
+-- Urun Ã–zelligi Silme
 --KONTROL ET:
 SELECT * FROM Urun_Ozellik;
 
@@ -688,7 +688,7 @@ WHERE kategori_id = 10 AND marka_id = 1;
 
 UPDATE Urun 
 SET stok = stok + 100 
-WHERE kategori_id = 10 AND marka_id = 1; -- Apple telefonlar için toplu stok giriþi
+WHERE kategori_id = 10 AND marka_id = 1; -- Apple telefonlar iÃ§in toplu stok giriÃ¾i
 GO
 
 -- Stok Sifir Olan Urunleri Pasif Yap
@@ -719,13 +719,13 @@ SELECT * FROM Siparis;
 
 SELECT TOP 5
     M.id,
-    M.ad + N' ' + M.soyad AS [Müþteri Adý],
-    COUNT(S.id) AS [Toplam Sipariþ],
+    M.ad + N' ' + M.soyad AS [MÃ¼Ã¾teri AdÃ½],
+    COUNT(S.id) AS [Toplam SipariÃ¾],
     SUM(S.toplam_tutar) AS [Toplam Harcama]
 FROM Musteri M
 INNER JOIN Siparis S ON M.id = S.musteri_id
 GROUP BY M.id, M.ad, M.soyad
-ORDER BY [Toplam Sipariþ] DESC, [Toplam Harcama] DESC; --Toplam siparise gore sýralanýyor fakat sayý ayný olursa da toplamharcamaya göre de sýralanýyor
+ORDER BY [Toplam SipariÃ¾] DESC, [Toplam Harcama] DESC; --Toplam siparise gore sÃ½ralanÃ½yor fakat sayÃ½ aynÃ½ olursa da toplamharcamaya gÃ¶re de sÃ½ralanÃ½yor
 GO
 
 --En cok satilan urunler
@@ -735,31 +735,31 @@ SELECT * FROM Urun;
 
 SELECT
     U.id,
-    U.ad AS [Ürün Adý],
+    U.ad AS [ÃœrÃ¼n AdÃ½],
     M.ad AS Marka,
     K.ad AS Kategori,
-    SUM(SD.adet) AS [Toplam Satýlan Adet],
-    SUM(SD.satis_fiyati) AS [Toplam Satýþ Cirosu]
+    SUM(SD.adet) AS [Toplam SatÃ½lan Adet],
+    SUM(SD.satis_fiyati) AS [Toplam SatÃ½Ã¾ Cirosu]
 FROM Urun U
 INNER JOIN Siparis_Detay SD ON U.id = SD.urun_id
 INNER JOIN Marka M ON U.marka_id = M.id
 INNER JOIN Kategori K ON U.kategori_id = K.id
 GROUP BY U.id, U.ad, M.ad, K.ad, U.stok
-ORDER BY [Toplam Satýlan Adet] DESC, [Toplam Satýþ Cirosu] DESC;
+ORDER BY [Toplam SatÃ½lan Adet] DESC, [Toplam SatÃ½Ã¾ Cirosu] DESC;
 GO
 
---En yuksek cirosu olan satýcýlar
+--En yuksek cirosu olan satÃ½cÃ½lar
 --KONTROL:
 SELECT * FROM Siparis_Detay;
 SELECT * FROM Satici;
 
 SELECT 
     ST.id,
-    ST.ad AS[Satýcý Adý],
+    ST.ad AS[SatÃ½cÃ½ AdÃ½],
     ST.telefon,
     ST.email,
-    COUNT(DISTINCT U.id) AS [Toplam Ürün Sayýsý],
-    SUM(SD.adet) AS [Toplam Satýlan Adet],
+    COUNT(DISTINCT U.id) AS [Toplam ÃœrÃ¼n SayÃ½sÃ½],
+    SUM(SD.adet) AS [Toplam SatÃ½lan Adet],
     SUM(SD.satis_fiyati) AS [Toplam Ciro],
     SUM( (SD.satis_fiyati - SD.alis_fiyati) * SD.adet) AS [Toplam Kar]
 FROM Satici ST
@@ -777,7 +777,7 @@ GO
 SELECT * FROM Musteri;
 
 SELECT 
-    sehir AS Þehir,
+    sehir AS Ãžehir,
     COUNT(*) AS MusteriSayisi
 FROM Musteri
 GROUP BY sehir
@@ -787,16 +787,16 @@ GO
 --Kategori bazli toplam satislar
 SELECT 
     K.ad AS Kategori,
-    COUNT(DISTINCT U.id) AS [Ürün Sayýsý],
-    SUM(SD.adet) AS [Toplam Satýlan Adet],
-    SUM(SD.satis_fiyati) AS [Toplam Satýþ Tutarý],
-    AVG(SD.satis_fiyati) AS [Ortalama Satýþ Fiyatý],
+    COUNT(DISTINCT U.id) AS [ÃœrÃ¼n SayÃ½sÃ½],
+    SUM(SD.adet) AS [Toplam SatÃ½lan Adet],
+    SUM(SD.satis_fiyati) AS [Toplam SatÃ½Ã¾ TutarÃ½],
+    AVG(SD.satis_fiyati) AS [Ortalama SatÃ½Ã¾ FiyatÃ½],
     SUM( (SD.satis_fiyati - SD.alis_fiyati) * SD.adet) AS ToplamKar
 FROM Kategori K
 INNER JOIN Urun U ON K.id = U.kategori_id
 INNER JOIN Siparis_Detay SD ON U.id = SD.urun_id
 GROUP BY K.id, K.ad
-ORDER BY [Toplam Satýþ Tutarý] DESC;
+ORDER BY [Toplam SatÃ½Ã¾ TutarÃ½] DESC;
 GO
 
 --Aylara gore siparis sayisi
@@ -804,11 +804,11 @@ GO
 SELECT 
     YEAR(tarih) AS Yil,
     MONTH(tarih) AS Ay,
-    COUNT(*) AS [Sipariþ Sayisi],
+    COUNT(*) AS [SipariÃ¾ Sayisi],
     SUM(toplam_tutar) AS [Toplam Ciro],
-    AVG(toplam_tutar) AS [Ortalama Sepet Tutarý],
-    MAX(toplam_tutar) AS [En Yüksek Sipariþ],
-    MIN(toplam_tutar) AS [En Düþük Sipariþ]
+    AVG(toplam_tutar) AS [Ortalama Sepet TutarÃ½],
+    MAX(toplam_tutar) AS [En YÃ¼ksek SipariÃ¾],
+    MIN(toplam_tutar) AS [En DÃ¼Ã¾Ã¼k SipariÃ¾]
 FROM Siparis
 GROUP BY YEAR(tarih), MONTH(tarih), DATENAME(MONTH, tarih)
 ORDER BY Yil DESC, Ay DESC;
@@ -818,16 +818,16 @@ GO
 
 --Siparislerde musteri bilgisi + urun bilgisi + satici bilgisi
 SELECT 
-    S.id AS [Sipariþ ID],
-    S.tarih AS [Sipariþ Tarihi],
-    M.ad + N' ' + M.soyad AS [Müþteri Adý],
-    M.sehir AS [Müþteri Þehri],
-    M.telefon AS [Müþteri Telefon],
-    U.ad AS [Ürün Adý],
+    S.id AS [SipariÃ¾ ID],
+    S.tarih AS [SipariÃ¾ Tarihi],
+    M.ad + N' ' + M.soyad AS [MÃ¼Ã¾teri AdÃ½],
+    M.sehir AS [MÃ¼Ã¾teri Ãžehri],
+    M.telefon AS [MÃ¼Ã¾teri Telefon],
+    U.ad AS [ÃœrÃ¼n AdÃ½],
     MR.ad AS Marka,
     SD.adet,
     SD.satis_fiyati,
-    ST.ad AS [Satýcý Adý],
+    ST.ad AS [SatÃ½cÃ½ AdÃ½],
     S.siparis_durumu,
     S.odeme_turu
 FROM Siparis S
@@ -842,7 +842,7 @@ GO
 --Hic satilmamis urunler
 SELECT 
     U.id,
-    U.ad AS [Ürün Adý],
+    U.ad AS [ÃœrÃ¼n AdÃ½],
     M.ad AS Marka,
     K.ad AS Kategori,
     U.satis_fiyati,
@@ -859,12 +859,12 @@ GO
 --Hic siparis vermemis musteriler
 SELECT 
     M.id,
-    M.ad + N' ' + M.soyad AS [Müþteri Adý],
+    M.ad + N' ' + M.soyad AS [MÃ¼Ã¾teri AdÃ½],
     M.email,
     M.telefon,
     M.sehir,
     M.kayit_tarihi,
-    DATEDIFF(DAY, M.kayit_tarihi, GETDATE()) AS [Kayýt Süresi Gün]
+    DATEDIFF(DAY, M.kayit_tarihi, GETDATE()) AS [KayÃ½t SÃ¼resi GÃ¼n]
 FROM Musteri M
 LEFT JOIN Siparis S ON M.id = S.musteri_id
 WHERE S.id IS NULL AND M.aktif_durum = 1
@@ -879,26 +879,26 @@ GO
 SELECT  TOP 3
     K.id,
     K.ad AS Kategori,
-    SUM(SD.satis_fiyati) AS [Toplam Satýþ],
+    SUM(SD.satis_fiyati) AS [Toplam SatÃ½Ã¾],
     SUM(SD.alis_fiyati * SD.adet) AS [Toplam Maliyet],
-    SUM( (SD.satis_fiyati - SD.alis_fiyati) * SD.adet ) AS [Net Kâr]
+    SUM( (SD.satis_fiyati - SD.alis_fiyati) * SD.adet ) AS [Net KÃ¢r]
 FROM Kategori K
 LEFT JOIN Urun U ON K.id = U.kategori_id
 LEFT JOIN Siparis_Detay SD ON U.id = SD.urun_id
 GROUP BY K.id, K.ad
-ORDER BY [Net Kâr] DESC;
+ORDER BY [Net KÃ¢r] DESC;
 GO
 
 --Ortalama siparis tutarini gecen siparisleri bul
 SELECT 
-    S.id AS [Sipariþ No],
-    S.tarih AS [Sipariþ Tarihi],
-    M.ad + N' ' + M.soyad AS [Müþteri Adý],
+    S.id AS [SipariÃ¾ No],
+    S.tarih AS [SipariÃ¾ Tarihi],
+    M.ad + N' ' + M.soyad AS [MÃ¼Ã¾teri AdÃ½],
     M.email,
     S.toplam_tutar,
-    (SELECT AVG(toplam_tutar) FROM Siparis) AS [Ortalama Sipariþ Tutarý],
-    S.toplam_tutar - (SELECT AVG(toplam_tutar) FROM Siparis) AS [Ortalamanýn Üstünde],
-    (SELECT COUNT(*) FROM Siparis WHERE musteri_id = M.id) AS [Toplam Satýþ Sayýsý]
+    (SELECT AVG(toplam_tutar) FROM Siparis) AS [Ortalama SipariÃ¾ TutarÃ½],
+    S.toplam_tutar - (SELECT AVG(toplam_tutar) FROM Siparis) AS [OrtalamanÃ½n ÃœstÃ¼nde],
+    (SELECT COUNT(*) FROM Siparis WHERE musteri_id = M.id) AS [Toplam SatÃ½Ã¾ SayÃ½sÃ½]
 FROM Siparis S
 INNER JOIN Musteri M ON S.musteri_id = M.id
 WHERE S.toplam_tutar > (SELECT AVG(toplam_tutar) FROM Siparis)
@@ -908,7 +908,7 @@ GO
 --En az bir kez elektronik urun alan musteriler
 SELECT DISTINCT
     M.id,
-    M.ad + N' ' + M.soyad AS [Müþteri Adý],
+    M.ad + N' ' + M.soyad AS [MÃ¼Ã¾teri AdÃ½],
     M.email,
     M.telefon,
     M.sehir,
